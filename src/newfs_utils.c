@@ -202,6 +202,7 @@ struct newfs_inode* newfs_alloc_inode(struct newfs_dentry * dentry) {
 int newfs_sync_inode(struct newfs_inode * inode) {
     struct newfs_inode_d  inode_d;
     struct newfs_dentry*  dentry_cursor;
+    struct newfs_dentry*  cur_dentry_cursor;
     struct newfs_dentry_d dentry_d;
     int ino             = inode->ino;
     int offset;
@@ -217,7 +218,7 @@ int newfs_sync_inode(struct newfs_inode * inode) {
 
     /* 先写inode本身 */
     if (newfs_driver_write(NEWFS_INO_OFS(ino), (uint8_t *)&inode_d, 
-        sizeof(struct newfs_inode_d)) != NEWFS_ERROR_NONE) {
+        NEWFS_INODE_SZ()) != NEWFS_ERROR_NONE) {
         NEWFS_DBG("[%s] io error\n", __func__);
         return -NEWFS_ERROR_IO;
     }
@@ -244,10 +245,11 @@ int newfs_sync_inode(struct newfs_inode * inode) {
                 }
 
                 // 下一个目录项
+                cur_dentry_cursor = dentry_cursor;
                 dentry_cursor = dentry_cursor->brother;
                 offset += sizeof(struct newfs_dentry_d);
 
-                // free(dentry_cursor);
+                free(cur_dentry_cursor);
             }
         }
     }
@@ -259,10 +261,10 @@ int newfs_sync_inode(struct newfs_inode * inode) {
                 NEWFS_DBG("[%s] io error\n", __func__);
                 return -NEWFS_ERROR_IO;
             }
-            // free(inode->data[i]);
+            free(inode->data[i]);
         }
     }
-    // free(inode);
+    free(inode);
     return NEWFS_ERROR_NONE;
 }
 
@@ -282,7 +284,7 @@ struct newfs_inode* newfs_read_inode(struct newfs_dentry * dentry, int ino) {
     int offset;
     /* 从磁盘读索引结点 */
     if (newfs_driver_read(NEWFS_INO_OFS(ino), (uint8_t *)&inode_d, 
-                        sizeof(struct newfs_inode_d)) != NEWFS_ERROR_NONE) {
+                        NEWFS_INODE_SZ()) != NEWFS_ERROR_NONE) {
         NEWFS_DBG("[%s] io error\n", __func__);
         return NULL;                    
     }
