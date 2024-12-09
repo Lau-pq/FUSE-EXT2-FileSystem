@@ -106,8 +106,8 @@ struct newfs_super {
     int ino_offset;     // 索引节点区于磁盘中的偏移 3
     int ino_blks;       // 索引节点区于磁盘中的块数 256
 
-    int data_offset;     // 数据块区于磁盘中的偏移 131
-    int data_blks;       // 数据块区于磁盘中的块数 3965
+    int data_offset;     // 数据块区于磁盘中的偏移 33
+    int data_blks;       // 数据块区于磁盘中的块数 4063
 
     /* 支持的限制 */
     int max_ino;            // 最大支持inode数
