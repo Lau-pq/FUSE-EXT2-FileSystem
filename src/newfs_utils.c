@@ -631,7 +631,7 @@ int newfs_mount(struct custom_options options){
         newfs_super_d.ino_offset            = newfs_super_d.map_data_offset + NEWFS_BLKS_SZ(newfs_super_d.map_data_blks);
         newfs_super_d.data_blks             = DATA_BLKS;
         newfs_super_d.data_offset           = newfs_super_d.ino_offset + NEWFS_BLKS_SZ(newfs_super_d.ino_blks);
-        newfs_super_d.max_ino               = MAX_INODE_PER_BLK * newfs_super_d.ino_blks;
+        newfs_super_d.max_ino               = MAX_INODE_PER_BLK() * newfs_super_d.ino_blks;
         newfs_super_d.max_data              = newfs_super_d.data_blks;
         
         is_init = TRUE;

@@ -37,9 +37,8 @@ typedef enum newfs_file_type {
 #define SUPER_BLKS              1
 #define INODE_MAP_BLKS          1
 #define DATA_MAP_BLKS           1
-#define INODE_BLKS              37
-#define MAX_INODE_PER_BLK       16
-#define DATA_BLKS               4056
+#define INODE_BLKS              30
+#define DATA_BLKS               4063
 #define NEWFS_DATA_PER_FILE     6
 #define NEWFS_DEFAULT_PERM      0777
 
@@ -53,8 +52,8 @@ typedef enum newfs_file_type {
 #define NEWFS_DRIVER()                    (newfs_super.fd)
 #define NEWFS_INODE_SZ()                  (sizeof(struct newfs_inode_d))
 #define NEWFS_BLKS_SZ(blks)               ((blks) * NEWFS_BLK_SZ())
-#define NEWFS_INODES_SZ(ino)              ((ino) * NEWFS_INODE_SZ())
 #define MAX_DENTRY_PER_BLK()              (NEWFS_BLK_SZ() / sizeof(struct newfs_dentry))
+#define MAX_INODE_PER_BLK()               (NEWFS_BLK_SZ() / sizeof(struct newfs_inode_d))
 
 // 向上取整数 向下取整
 #define NEWFS_ROUND_DOWN(value, round)    ((value) % (round) == 0 ? (value) : ((value) / (round)) * (round))
@@ -64,7 +63,7 @@ typedef enum newfs_file_type {
 #define NEWFS_ASSIGN_FNAME(pnewfs_dentry, _fname) memcpy(pnewfs_dentry->fname, _fname, strlen(_fname))
 
 // 计算偏移大小
-#define NEWFS_INO_OFS(ino)                (newfs_super.ino_offset + NEWFS_INODES_SZ(ino))
+#define NEWFS_INO_OFS(ino)                (newfs_super.ino_offset + (ino / MAX_INODE_PER_BLK() * NEWFS_BLK_SZ()) + (ino % MAX_INODE_PER_BLK() * NEWFS_INODE_SZ()))
 #define NEWFS_DATA_OFS(dno)               (newfs_super.data_offset + NEWFS_BLKS_SZ(dno))
 
 // 判断 inode 类型
