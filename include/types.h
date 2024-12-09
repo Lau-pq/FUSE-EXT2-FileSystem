@@ -23,7 +23,8 @@ typedef enum newfs_file_type {
 
 #define NEWFS_ERROR_NONE          0
 #define NEWFS_ERROR_ACCESS        EACCES
-#define NEWFS_ERROR_SEEK          ESPIPE     
+#define NEWFS_ERROR_SEEK          ESPIPE
+#define NEWFS_ERROR_NOTDIR        ENOTDIR
 #define NEWFS_ERROR_ISDIR         EISDIR
 #define NEWFS_ERROR_NOSPACE       ENOSPC
 #define NEWFS_ERROR_EXISTS        EEXIST

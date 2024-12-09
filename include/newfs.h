@@ -25,21 +25,22 @@
 /******************************************************************************
 * SECTION: newfs_utils.c
 *******************************************************************************/
-char* 			   newfs_get_fname(const char* path);
-int 			   newfs_calc_lvl(const char * path);
-int 			   newfs_driver_read(int offset, uint8_t *out_content, int size);
-int 			   newfs_driver_write(int offset, uint8_t *in_content, int size);
+char* 			   		newfs_get_fname(const char* path);
+int 			   		newfs_calc_lvl(const char * path);
+int 			   		newfs_driver_read(int offset, uint8_t *out_content, int size);
+int 			   		newfs_driver_write(int offset, uint8_t *in_content, int size);
 
-int 			   newfs_mount(struct custom_options options);
-int 			   newfs_umount();
+int 			   		newfs_mount(struct custom_options options);
+int 			   		newfs_umount();
 
-int 			   newfs_alloc_dentry(struct newfs_inode * inode, struct newfs_dentry * dentry);
-struct newfs_inode*  newfs_alloc_inode(struct newfs_dentry * dentry);
-int 			   newfs_sync_inode(struct newfs_inode * inode);
-struct newfs_inode*  newfs_read_inode(struct newfs_dentry * dentry, int ino);
-struct newfs_dentry* newfs_get_dentry(struct newfs_inode * inode, int dir);
+int 			   		newfs_alloc_dentry(struct newfs_inode * inode, struct newfs_dentry * dentry);
+struct newfs_inode*  	newfs_alloc_inode(struct newfs_dentry * dentry);
+int 			   		newfs_sync_inode(struct newfs_inode * inode);
+struct newfs_inode* 	newfs_read_inode(struct newfs_dentry * dentry, int ino);
+struct newfs_dentry* 	newfs_get_dentry(struct newfs_inode * inode, int dir);
 
-struct newfs_dentry* newfs_lookup(const char * path, boolean * is_find, boolean* is_root);
+struct newfs_dentry* 	newfs_lookup(const char * path, boolean * is_find, boolean* is_root);
+int 					newfs_alloc_data_blk(struct newfs_inode* inode, int blk_no);
 
 /******************************************************************************
 * SECTION: newfs.c
